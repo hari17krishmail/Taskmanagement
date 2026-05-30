@@ -3,7 +3,8 @@
 import {
   OPEN_TASK_FORM,
   CLOSE_TASK_FORM,
-  SET_FORM_MODE
+  SET_FORM_MODE,
+   SET_FILTERS,
 } from '../actions/uiActions';
 
 const initialState = {
@@ -11,6 +12,13 @@ const initialState = {
     isOpen: false,
     mode: 'create',
     taskId: null,
+  },
+  filters: {
+    projectId: null,
+    assigneeId: null,
+    status: 'all',
+    taskType: 'all',
+    search: '',
   },
    loading: {
     tasks: false,
@@ -26,7 +34,6 @@ const uiReducer = (state = initialState, action) => {
     case OPEN_TASK_FORM:
       return {
         ...state,
-
         taskForm: {
           isOpen: true,
           mode: action.payload.mode,
@@ -53,6 +60,16 @@ const uiReducer = (state = initialState, action) => {
           taskId: action.payload.taskId,
         },
       }; 
+
+    case SET_FILTERS:
+      return {
+        ...state,
+
+        filters: {
+          ...state.filters,
+          ...action.payload,
+        },
+      };
 
     default:
       return state;

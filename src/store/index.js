@@ -70,7 +70,7 @@ const store = createStore(
 );
 
 // TODO: Run root saga
-// sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(rootSaga);
 
 export default store;
 

@@ -1,7 +1,7 @@
 // Main Dashboard Component
 // TODO: Implement the main container component
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import TaskForm from './TaskForm';
 import TaskList from './TaskList';
@@ -10,10 +10,12 @@ import FilterBar from './FilterBar';
 // TODO: Import selectors and actions
 import { 
   selectAllTasks,
+  selectFilteredTasks,
   selectTaskFormState,
   selectUsers,
   selectProjects,
   selectLoading,
+  selectFilters,
   selectErrors
 } from '../store/selectors';
 
@@ -27,6 +29,7 @@ import {
 import {
   openTaskForm,
   closeTaskForm,
+  setFilters
 } from '../store/actions/uiActions';
 
 import { mockProjects, mockUsers } from '../api/mockApi';
@@ -39,12 +42,18 @@ const TaskDashboard = () => {
   const tasks = useSelector(selectAllTasks);
   const users = useSelector(selectUsers);
   const projects = useSelector(selectProjects);
+   console.log("Projects", projects);
+  console.log("Users", users);
   const taskForm = useSelector(selectTaskFormState);
+  const filters = useSelector(selectFilters);
+ 
   const loading = useSelector(selectLoading);
   const errors = useSelector(selectErrors);
   
   // TODO: Fetch initial data on component mount
-  
+  useEffect(() => {
+    dispatch(fetchTasksRequest(filters));
+  }, [dispatch, filters]);
   // TODO: Refetch tasks when filters change
 
   // TODO: Implement event handlers
@@ -98,6 +107,7 @@ const TaskDashboard = () => {
 
   const handleFiltersChange = (newFilters) => {
     // TODO: Dispatch filter change action
+    dispatch(setFilters(newFilters));
   };
 
   const selectedTask =
@@ -127,9 +137,9 @@ const TaskDashboard = () => {
       )}
 
       <FilterBar
-        // filters={filters}
-        // projects={projects}
-        // users={users}
+        filters={filters}
+        projects={projects}
+        users={users}
         onFiltersChange={handleFiltersChange}
       />
 

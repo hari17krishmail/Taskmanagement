@@ -54,6 +54,25 @@ export const setFormMode = (
 });
 
 
+// Set Filters
+export const setFilters = (filters) => ({
+  type: SET_FILTERS,
+  payload: filters,
+});
+
+
+// Clear Filters
+export const clearFilters = () => ({
+  type: CLEAR_FILTERS,
+});
+
+// Set Search
+export const setSearch = (searchText) => ({
+  type: SET_SEARCH,
+  payload: searchText,
+});
+
+
 // Set Loading
 export const setLoading = (
   key,
