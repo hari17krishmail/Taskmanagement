@@ -7,7 +7,7 @@ import { createLogger } from 'redux-logger';
 
 // TODO: Import your reducers here
 // import tasksReducer from './reducers/tasksReducer';
-// import uiReducer from './reducers/uiReducer';
+import uiReducer from './reducers/uiReducer';
 // import usersReducer from './reducers/usersReducer';
 // import projectsReducer from './reducers/projectsReducer';
 
@@ -25,6 +25,10 @@ import { createLogger } from 'redux-logger';
 const rootReducer = combineReducers({
   // TODO: Add your reducers here
   // TODO: Use normalized state structure (entities, ui)
+   entities: combineReducers({
+    // tasks: tasksReducer,
+  }),
+   ui: uiReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

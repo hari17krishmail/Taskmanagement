@@ -59,43 +59,71 @@ const TaskForm = ({
           <button onClick={onClose}>×</button>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form 
+        // onSubmit={handleSubmit(onSubmit)}
+        >
           {/* TODO: Implement form fields */}
           
           {/* Basic Fields */}
           <div className="form-group">
             <label>Title *</label>
             {/* TODO: Add title input with validation */}
+             <input
+              type="text"
+              placeholder="Enter task title..."
+            />
           </div>
 
           <div className="form-group">
             <label>Task Type *</label>
             {/* TODO: Add task type dropdown */}
+             <select>
+                <option>
+                </option>
+            </select>
           </div>
 
           <div className="form-group">
             <label>Priority *</label>
             {/* TODO: Add priority dropdown */}
+             <select>
+                <option>
+                </option>
+            </select>
           </div>
 
           <div className="form-group">
             <label>Project</label>
             {/* TODO: Add project dropdown */}
+             <select>
+               <option value="">Select a project...</option>
+                <option>
+                </option>
+            </select>
           </div>
 
           <div className="form-group">
             <label>Assignee</label>
             {/* TODO: Add assignee dropdown (filtered by project) */}
+            <select>
+               <option value="">Unassigned</option>
+                <option>
+                </option>
+            </select>
           </div>
 
           <div className="form-group">
             <label>Description</label>
             {/* TODO: Add description textarea */}
+            <textarea
+              placeholder="Enter task description..."
+            />
           </div>
 
           <div className="form-group">
             <label>Due Date</label>
             {/* TODO: Add date input */}
+             <input type="date"  />
           </div>
 
           {/* Dynamic Fields */}
@@ -105,6 +133,23 @@ const TaskForm = ({
           <div className="form-group">
             <label>Subtasks</label>
             {/* TODO: Implement field array for subtasks */}
+             <div  className="array-field">
+                <input
+                  type="text"
+                  placeholder="Enter subtask"
+                />
+
+                <button
+                  type="button"
+                >
+                  Remove
+                </button>
+              </div>
+               <button
+              type="button"
+            >
+              Add Subtask
+            </button>
           </div>
 
           {/* Form Actions */}
@@ -112,7 +157,9 @@ const TaskForm = ({
             <button type="button" onClick={onClose}>
               Cancel
             </button>
-            <button type="submit" disabled={loading || !isValid}>
+            <button type="submit" 
+            // disabled={loading || !isValid}
+            >
               {loading ? 'Saving...' : mode === 'create' ? 'Create Task' : 'Update Task'}
             </button>
           </div>

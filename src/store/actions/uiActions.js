@@ -22,3 +22,21 @@ export const CLEAR_ERROR = 'CLEAR_ERROR';
 // 4. Error handling
 
 // TODO: Create action creators for form state, filters, loading, errors
+
+// Open Task Form
+export const openTaskForm = (
+  mode = 'create',
+  taskId = null
+) => ({
+  type: OPEN_TASK_FORM,
+
+  payload: {
+    mode,
+    taskId,
+  },
+});
+
+// Close Task Form
+export const closeTaskForm = () => ({
+  type: CLOSE_TASK_FORM,
+});

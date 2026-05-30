@@ -29,10 +29,17 @@ import FilterBar from './FilterBar';
 //   setFilters
 // } from '../store/actions';
 
+import {
+  openTaskForm,
+  closeTaskForm,
+} from '../store/actions/uiActions';
+import { selectTaskFormState } from '../store/selectors';
+
 const TaskDashboard = () => {
   const dispatch = useDispatch();
 
   // TODO: Connect to Redux state using useSelector
+  const taskForm = useSelector(selectTaskFormState);
   
   // TODO: Fetch initial data on component mount
   
@@ -41,6 +48,7 @@ const TaskDashboard = () => {
   // TODO: Implement event handlers
   const handleCreateTask = () => {
     // TODO: Dispatch open form action for create mode
+    dispatch(openTaskForm('create', null));
   };
 
   const handleEditTask = (taskId) => {
@@ -57,6 +65,7 @@ const TaskDashboard = () => {
 
   const handleFormClose = () => {
     // TODO: Dispatch close form action and clear localStorage
+     dispatch(closeTaskForm());
   };
 
   const handleFiltersChange = (newFilters) => {
@@ -97,8 +106,8 @@ const TaskDashboard = () => {
       />
 
       <TaskForm
-        // isOpen={taskForm.isOpen}
-        // mode={taskForm.mode}
+        isOpen={taskForm.isOpen}
+        mode={taskForm.mode}
         // initialData={taskForm.taskId ? tasks.find(t => t.id === taskForm.taskId) : null}
         // users={users}
         // projects={projects}
