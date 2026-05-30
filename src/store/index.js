@@ -6,13 +6,13 @@ import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
 
 // TODO: Import your reducers here
-// import tasksReducer from './reducers/tasksReducer';
+import tasksReducer from './reducers/tasksReducer';
 import uiReducer from './reducers/uiReducer';
-// import usersReducer from './reducers/usersReducer';
-// import projectsReducer from './reducers/projectsReducer';
+import usersReducer from './reducers/usersReducer';
+import projectsReducer from './reducers/projectsReducer';
 
 // TODO: Import your root saga
-// import rootSaga from './sagas/rootSaga';
+import rootSaga from './sagas/rootSaga';
 
 // TODO: Implement the store configuration
 // Requirements:
@@ -26,7 +26,9 @@ const rootReducer = combineReducers({
   // TODO: Add your reducers here
   // TODO: Use normalized state structure (entities, ui)
    entities: combineReducers({
-    // tasks: tasksReducer,
+    tasks: tasksReducer,
+    users: usersReducer,
+    projects: projectsReducer,
   }),
    ui: uiReducer,
 });

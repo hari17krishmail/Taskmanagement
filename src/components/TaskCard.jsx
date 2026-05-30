@@ -34,10 +34,23 @@ const TaskCard = ({ task, onEdit, onDelete }) => {
   };
 
   // TODO: Check if this is an optimistic update
+  const isOptimistic =
+    task.id?.toString().startsWith('temp-') ||
+    task.isOptimistic ||
+    task.pending;
 
   return (
-    <div className={`task-card ${task.taskType?.toLowerCase()}`}>
+    <div className={`task-card ${task.taskType?.toLowerCase()} ${
+        isOptimistic
+          ? 'optimistic'
+          : ''
+      }`}>
       {/* TODO: Show optimistic update indicator */}
+      {isOptimistic && (
+        <div className="optimistic-badge">
+          Syncing...
+        </div>
+      )}
 
       <div className="task-card-header">
         <div className="task-meta">

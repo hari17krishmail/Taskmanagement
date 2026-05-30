@@ -8,38 +8,40 @@ import TaskList from './TaskList';
 import FilterBar from './FilterBar';
 
 // TODO: Import selectors and actions
-// import { 
-//   selectAllTasks,
-//   selectFilteredTasks,
-//   selectTaskFormState,
-//   selectUsers,
-//   selectProjects,
-//   selectFilters,
-//   selectLoading,
-//   selectErrors
-// } from '../store/selectors';
+import { 
+  selectAllTasks,
+  selectTaskFormState,
+  selectUsers,
+  selectProjects,
+  selectLoading,
+  selectErrors
+} from '../store/selectors';
 
-// import {
-//   fetchTasksRequest,
-//   createTaskRequest,
-//   updateTaskRequest,
-//   deleteTaskRequest,
-//   openTaskForm,
-//   closeTaskForm,
-//   setFilters
-// } from '../store/actions';
+import {
+  fetchTasksRequest,
+  createTaskRequest,
+  updateTaskRequest,
+  deleteTaskRequest,
+} from '../store/actions/taskActions';
 
 import {
   openTaskForm,
   closeTaskForm,
 } from '../store/actions/uiActions';
-import { selectTaskFormState } from '../store/selectors';
+
+import { mockProjects, mockUsers } from '../api/mockApi';
+
 
 const TaskDashboard = () => {
   const dispatch = useDispatch();
 
   // TODO: Connect to Redux state using useSelector
+  const tasks = useSelector(selectAllTasks);
+  const users = useSelector(selectUsers);
+  const projects = useSelector(selectProjects);
   const taskForm = useSelector(selectTaskFormState);
+  const loading = useSelector(selectLoading);
+  const errors = useSelector(selectErrors);
   
   // TODO: Fetch initial data on component mount
   
@@ -53,24 +55,57 @@ const TaskDashboard = () => {
 
   const handleEditTask = (taskId) => {
     // TODO: Dispatch open form action for edit mode
+    dispatch(openTaskForm('edit', taskId));
   };
 
   const handleDeleteTask = (taskId) => {
     // TODO: Show confirmation and dispatch delete action
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this task?'
+    );
+
+    if (confirmed) {
+      dispatch(deleteTaskRequest(taskId));
+    }
   };
 
   const handleFormSubmit = (formData) => {
     // TODO: Dispatch create or update action based on form mode
+     if (
+      taskForm.mode === 'edit' &&
+      taskForm.taskId
+    ) {
+      dispatch(
+        updateTaskRequest(
+          taskForm.taskId,
+          formData
+        )
+      );
+    } else {
+      dispatch(
+        createTaskRequest(formData)
+      );
+    }
   };
 
   const handleFormClose = () => {
     // TODO: Dispatch close form action and clear localStorage
      dispatch(closeTaskForm());
+      localStorage.removeItem(
+      'taskFormDraft'
+    );
   };
 
   const handleFiltersChange = (newFilters) => {
     // TODO: Dispatch filter change action
   };
+
+  const selectedTask =
+    taskForm.taskId &&
+    tasks.find(
+      (task) =>
+        task.id === taskForm.taskId
+    );
 
   return (
     <div className="task-dashboard">
@@ -85,11 +120,11 @@ const TaskDashboard = () => {
       </header>
 
       {/* TODO: Show error messages */}
-      {/* {errors.tasks && (
+      {errors.tasks && (
         <div className="error-banner">
           Error: {errors.tasks}
         </div>
-      )} */}
+      )}
 
       <FilterBar
         // filters={filters}
@@ -99,8 +134,8 @@ const TaskDashboard = () => {
       />
 
       <TaskList
-        // tasks={tasks}
-        // loading={loading.tasks}
+        tasks={tasks}
+        loading={loading.tasks}
         onEditTask={handleEditTask}
         onDeleteTask={handleDeleteTask}
       />
@@ -108,10 +143,12 @@ const TaskDashboard = () => {
       <TaskForm
         isOpen={taskForm.isOpen}
         mode={taskForm.mode}
-        // initialData={taskForm.taskId ? tasks.find(t => t.id === taskForm.taskId) : null}
-        // users={users}
-        // projects={projects}
-        // loading={loading.tasks}
+        initialData={
+          selectedTask || null
+        }        
+        users={mockUsers}
+        projects={mockProjects}
+        loading={loading.tasks}
         onSubmit={handleFormSubmit}
         onClose={handleFormClose}
       />

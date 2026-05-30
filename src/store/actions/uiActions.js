@@ -40,3 +40,48 @@ export const openTaskForm = (
 export const closeTaskForm = () => ({
   type: CLOSE_TASK_FORM,
 });
+
+export const setFormMode = (
+  mode,
+  taskId = null
+) => ({
+  type: SET_FORM_MODE,
+
+  payload: {
+    mode,
+    taskId,
+  },
+});
+
+
+// Set Loading
+export const setLoading = (
+  key,
+  value
+) => ({
+  type: SET_LOADING,
+
+  payload: {
+    key,
+    value,
+  },
+});
+
+// Set Error
+export const setError = (
+  key,
+  error
+) => ({
+  type: SET_ERROR,
+
+  payload: {
+    key,
+    error,
+  },
+});
+
+// Clear Error
+export const clearError = (key) => ({
+  type: CLEAR_ERROR,
+  payload: key,
+});

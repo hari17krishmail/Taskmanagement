@@ -4,14 +4,14 @@
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Mock data
-const mockUsers = [
+export const mockUsers = [
   { id: '1', name: 'John Doe', email: 'john@company.com', projectIds: ['1', '2'] },
   { id: '2', name: 'Jane Smith', email: 'jane@company.com', projectIds: ['1'] },
   { id: '3', name: 'Mike Johnson', email: 'mike@company.com', projectIds: ['2', '3'] },
   { id: '4', name: 'Sarah Wilson', email: 'sarah@company.com', projectIds: ['1', '3'] },
 ];
 
-const mockProjects = [
+export const mockProjects = [
   { id: '1', name: 'E-commerce Platform', userIds: ['1', '2', '4'] },
   { id: '2', name: 'Mobile App', userIds: ['1', '3'] },
   { id: '3', name: 'Analytics Dashboard', userIds: ['3', '4'] },
