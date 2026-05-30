@@ -1,8 +1,15 @@
 // Task sagas for handling async operations
 // TODO: Implement saga functions for task management
 
-import { call, put, takeEvery, takeLatest, race, delay } from 'redux-saga/effects';
-import { mockApi } from '../../api/mockApi';
+import {
+  call,
+  put,
+  takeEvery,
+  takeLatest,
+  race,
+  delay,
+} from "redux-saga/effects";
+import { mockApi } from "../../api/mockApi";
 
 // TODO: Import action types and action creators
 import {
@@ -10,36 +17,32 @@ import {
   CREATE_TASK_REQUEST,
   UPDATE_TASK_REQUEST,
   DELETE_TASK_REQUEST,
-
   fetchTasksSuccess,
   fetchTasksFailure,
   fetchUsersSuccess,
   fetchProjectsSuccess,
-
   createTaskSuccess,
   createTaskFailure,
   createTaskOptimistic,
-
   updateTaskSuccess,
   updateTaskFailure,
   updateTaskOptimistic,
-
   deleteTaskSuccess,
   deleteTaskFailure,
   deleteTaskOptimistic,
-} from '../actions/taskActions'; 
+} from "../actions/taskActions";
 
 import {
   setLoading,
   setError,
   clearError,
   closeTaskForm,
-} from '../actions/uiActions';
+} from "../actions/uiActions";
 // TODO: Implement saga functions
 // Requirements:
 // 1. Handle fetch tasks with error handling
 // 2. Handle create task with optimistic updates
-// 3. Handle update task with optimistic updates  
+// 3. Handle update task with optimistic updates
 // 4. Handle delete task with optimistic updates
 // 5. Implement retry logic for failed requests
 // 6. Handle race conditions (cancel previous requests)
@@ -63,8 +66,8 @@ function* retryApi(apiFn, ...args) {
 // TODO: Implement fetchTasksSaga - use call, put, try-catch
 function* fetchTasksSaga(action) {
   try {
-    yield put(setLoading('tasks', true));
-    yield put(clearError('tasks'));
+    yield put(setLoading("tasks", true));
+    yield put(clearError("tasks"));
 
     const { response, timeout } = yield race({
       response: call(retryApi, mockApi.fetchTasks, action.payload),
@@ -72,7 +75,7 @@ function* fetchTasksSaga(action) {
     });
 
     if (timeout) {
-      throw new Error('Fetch tasks request timeout');
+      throw new Error("Fetch tasks request timeout");
     }
 
     const usersResponse = yield call(retryApi, mockApi.fetchUsers);
@@ -83,9 +86,9 @@ function* fetchTasksSaga(action) {
     yield put(fetchProjectsSuccess(projectsResponse.data));
   } catch (error) {
     yield put(fetchTasksFailure(error.message));
-    yield put(setError('tasks', error.message));
+    yield put(setError("tasks", error.message));
   } finally {
-    yield put(setLoading('tasks', false));
+    yield put(setLoading("tasks", false));
   }
 }
 
@@ -95,28 +98,24 @@ function* createTaskSaga(action) {
     ...action.payload,
     id: `temp-${Date.now()}`,
     createdAt: new Date().toISOString(),
-    status: 'Todo',
+    status: "Todo",
     isOptimistic: true,
   };
 
   try {
     yield put(createTaskOptimistic(optimisticTask));
-    yield put(setLoading('tasks', true));
-    yield put(clearError('form'));
+    yield put(setLoading("tasks", true));
+    yield put(clearError("form"));
 
-    const response = yield call(
-      retryApi,
-      mockApi.createTask,
-      action.payload
-    );
+    const response = yield call(retryApi, mockApi.createTask, action.payload);
 
     yield put(createTaskSuccess(response.data));
     yield put(closeTaskForm());
   } catch (error) {
     yield put(createTaskFailure(error.message));
-    yield put(setError('form', error.message));
+    yield put(setError("form", error.message));
   } finally {
-    yield put(setLoading('tasks', false));
+    yield put(setLoading("tasks", false));
   }
 }
 
@@ -126,23 +125,18 @@ function* updateTaskSaga(action) {
 
   try {
     yield put(updateTaskOptimistic(taskId, updates));
-    yield put(setLoading('tasks', true));
-    yield put(clearError('form'));
+    yield put(setLoading("tasks", true));
+    yield put(clearError("form"));
 
-    const response = yield call(
-      retryApi,
-      mockApi.updateTask,
-      taskId,
-      updates
-    );
+    const response = yield call(retryApi, mockApi.updateTask, taskId, updates);
 
     yield put(updateTaskSuccess(response.data));
     yield put(closeTaskForm());
   } catch (error) {
     yield put(updateTaskFailure(error.message));
-    yield put(setError('form', error.message));
+    yield put(setError("form", error.message));
   } finally {
-    yield put(setLoading('tasks', false));
+    yield put(setLoading("tasks", false));
   }
 }
 
@@ -152,21 +146,17 @@ function* deleteTaskSaga(action) {
 
   try {
     yield put(deleteTaskOptimistic(taskId));
-    yield put(setLoading('tasks', true));
-    yield put(clearError('tasks'));
+    yield put(setLoading("tasks", true));
+    yield put(clearError("tasks"));
 
-    const response = yield call(
-      retryApi,
-      mockApi.deleteTask,
-      taskId
-    );
+    const response = yield call(retryApi, mockApi.deleteTask, taskId);
 
     yield put(deleteTaskSuccess(response.data.id));
   } catch (error) {
     yield put(deleteTaskFailure(error.message));
-    yield put(setError('tasks', error.message));
+    yield put(setError("tasks", error.message));
   } finally {
-    yield put(setLoading('tasks', false));
+    yield put(setLoading("tasks", false));
   }
 }
 

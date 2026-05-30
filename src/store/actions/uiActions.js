@@ -2,17 +2,17 @@
 // TODO: Implement UI state management actions
 
 // Action Types
-export const OPEN_TASK_FORM = 'OPEN_TASK_FORM';
-export const CLOSE_TASK_FORM = 'CLOSE_TASK_FORM';
-export const SET_FORM_MODE = 'SET_FORM_MODE';
+export const OPEN_TASK_FORM = "OPEN_TASK_FORM";
+export const CLOSE_TASK_FORM = "CLOSE_TASK_FORM";
+export const SET_FORM_MODE = "SET_FORM_MODE";
 
-export const SET_FILTERS = 'SET_FILTERS';
-export const CLEAR_FILTERS = 'CLEAR_FILTERS';
-export const SET_SEARCH = 'SET_SEARCH';
+export const SET_FILTERS = "SET_FILTERS";
+export const CLEAR_FILTERS = "CLEAR_FILTERS";
+export const SET_SEARCH = "SET_SEARCH";
 
-export const SET_LOADING = 'SET_LOADING';
-export const SET_ERROR = 'SET_ERROR';
-export const CLEAR_ERROR = 'CLEAR_ERROR';
+export const SET_LOADING = "SET_LOADING";
+export const SET_ERROR = "SET_ERROR";
+export const CLEAR_ERROR = "CLEAR_ERROR";
 
 // TODO: Implement action creators for UI state
 // Requirements:
@@ -24,10 +24,7 @@ export const CLEAR_ERROR = 'CLEAR_ERROR';
 // TODO: Create action creators for form state, filters, loading, errors
 
 // Open Task Form
-export const openTaskForm = (
-  mode = 'create',
-  taskId = null
-) => ({
+export const openTaskForm = (mode = "create", taskId = null) => ({
   type: OPEN_TASK_FORM,
 
   payload: {
@@ -41,10 +38,7 @@ export const closeTaskForm = () => ({
   type: CLOSE_TASK_FORM,
 });
 
-export const setFormMode = (
-  mode,
-  taskId = null
-) => ({
+export const setFormMode = (mode, taskId = null) => ({
   type: SET_FORM_MODE,
 
   payload: {
@@ -53,13 +47,11 @@ export const setFormMode = (
   },
 });
 
-
 // Set Filters
 export const setFilters = (filters) => ({
   type: SET_FILTERS,
   payload: filters,
 });
-
 
 // Clear Filters
 export const clearFilters = () => ({
@@ -72,12 +64,8 @@ export const setSearch = (searchText) => ({
   payload: searchText,
 });
 
-
 // Set Loading
-export const setLoading = (
-  key,
-  value
-) => ({
+export const setLoading = (key, value) => ({
   type: SET_LOADING,
 
   payload: {
@@ -87,10 +75,7 @@ export const setLoading = (
 });
 
 // Set Error
-export const setError = (
-  key,
-  error
-) => ({
+export const setError = (key, error) => ({
   type: SET_ERROR,
 
   payload: {

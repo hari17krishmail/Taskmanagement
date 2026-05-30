@@ -2,26 +2,26 @@ import {
   OPEN_TASK_FORM,
   CLOSE_TASK_FORM,
   SET_FORM_MODE,
-   SET_FILTERS,
-   SET_LOADING,
+  SET_FILTERS,
+  SET_LOADING,
   SET_ERROR,
   CLEAR_ERROR,
-} from '../actions/uiActions';
+} from "../actions/uiActions";
 
 const initialState = {
   taskForm: {
     isOpen: false,
-    mode: 'create',
+    mode: "create",
     taskId: null,
   },
   filters: {
     projectId: null,
     assigneeId: null,
-    status: 'all',
-    taskType: 'all',
-    search: '',
+    status: "all",
+    taskType: "all",
+    search: "",
   },
-   loading: {
+  loading: {
     tasks: false,
   },
   errors: {
@@ -47,7 +47,7 @@ const uiReducer = (state = initialState, action) => {
         ...state,
         taskForm: {
           isOpen: false,
-          mode: 'create',
+          mode: "create",
           taskId: null,
         },
       };
@@ -60,7 +60,7 @@ const uiReducer = (state = initialState, action) => {
           mode: action.payload.mode,
           taskId: action.payload.taskId,
         },
-      }; 
+      };
 
     case SET_FILTERS:
       return {
@@ -71,32 +71,32 @@ const uiReducer = (state = initialState, action) => {
           ...action.payload,
         },
       };
-      case SET_LOADING:
-  return {
-    ...state,
-    loading: {
-      ...state.loading,
-      [action.payload.key]: action.payload.value,
-    },
-  };
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          [action.payload.key]: action.payload.value,
+        },
+      };
 
-case SET_ERROR:
-  return {
-    ...state,
-    errors: {
-      ...state.errors,
-      [action.payload.key]: action.payload.error,
-    },
-  };
+    case SET_ERROR:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          [action.payload.key]: action.payload.error,
+        },
+      };
 
-case CLEAR_ERROR:
-  return {
-    ...state,
-    errors: {
-      ...state.errors,
-      [action.payload]: null,
-    },
-  };
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          [action.payload]: null,
+        },
+      };
 
     default:
       return state;

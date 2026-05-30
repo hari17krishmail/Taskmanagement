@@ -1,27 +1,26 @@
 // Filter Bar Component
 // TODO: Implement advanced filtering controls
 
-import React from 'react';
-import { TASK_TYPES, STATUSES } from '../api/mockApi';
+import React from "react";
+import { TASK_TYPES, STATUSES } from "../api/mockApi";
 
-const FilterBar = ({ 
-  filters = {}, 
-  projects = [], 
-  users = [], 
-  onFiltersChange 
+const FilterBar = ({
+  filters = {},
+  projects = [],
+  users = [],
+  onFiltersChange,
 }) => {
-
   // TODO: Implement filter functionality
   // Requirements:
   // 1. Project filter dropdown
-  // 2. Assignee filter dropdown  
+  // 2. Assignee filter dropdown
   // 3. Status filter dropdown
   // 4. Task type filter dropdown
   // 5. Search input with debouncing
   // 6. Clear all filters button
   // 7. Show active filter count
 
-  const [searchInput, setSearchInput] = React.useState(filters.search || '');
+  const [searchInput, setSearchInput] = React.useState(filters.search || "");
 
   // TODO: Implement debounced search with useEffect and setTimeout
   React.useEffect(() => {
@@ -38,18 +37,18 @@ const FilterBar = ({
   const handleFilterChange = (filterKey, value) => {
     onFiltersChange({
       ...filters,
-      [filterKey]: value
+      [filterKey]: value,
     });
   };
 
   const clearAllFilters = () => {
-    setSearchInput('');
+    setSearchInput("");
     onFiltersChange({
       projectId: null,
       assigneeId: null,
-      status: 'all',
-      taskType: 'all',
-      search: ''
+      status: "all",
+      taskType: "all",
+      search: "",
     });
   };
 
@@ -59,8 +58,8 @@ const FilterBar = ({
 
     if (filters.projectId) count++;
     if (filters.assigneeId) count++;
-    if (filters.status && filters.status !== 'all') count++;
-    if (filters.taskType && filters.taskType !== 'all') count++;
+    if (filters.status && filters.status !== "all") count++;
+    if (filters.taskType && filters.taskType !== "all") count++;
     if (filters.search) count++;
 
     return count;
@@ -83,12 +82,14 @@ const FilterBar = ({
         {/* Project Filter */}
         <div className="filter-group">
           <select
-            value={filters.projectId || ''}
-            onChange={(e) => handleFilterChange('projectId', e.target.value || null)}
+            value={filters.projectId || ""}
+            onChange={(e) =>
+              handleFilterChange("projectId", e.target.value || null)
+            }
             className="filter-select"
           >
             <option value="">All Projects</option>
-            {projects.map(project => (
+            {projects.map((project) => (
               <option key={project.id} value={project.id}>
                 {project.name}
               </option>
@@ -99,12 +100,14 @@ const FilterBar = ({
         {/* Assignee Filter */}
         <div className="filter-group">
           <select
-            value={filters.assigneeId || ''}
-            onChange={(e) => handleFilterChange('assigneeId', e.target.value || null)}
+            value={filters.assigneeId || ""}
+            onChange={(e) =>
+              handleFilterChange("assigneeId", e.target.value || null)
+            }
             className="filter-select"
           >
             <option value="">All Assignees</option>
-            {users.map(user => (
+            {users.map((user) => (
               <option key={user.id} value={user.id}>
                 {user.name}
               </option>
@@ -115,12 +118,12 @@ const FilterBar = ({
         {/* Status Filter */}
         <div className="filter-group">
           <select
-            value={filters.status || 'all'}
-            onChange={(e) => handleFilterChange('status', e.target.value)}
+            value={filters.status || "all"}
+            onChange={(e) => handleFilterChange("status", e.target.value)}
             className="filter-select"
           >
             <option value="all">All Statuses</option>
-            {STATUSES.map(status => (
+            {STATUSES.map((status) => (
               <option key={status} value={status}>
                 {status}
               </option>
@@ -131,12 +134,12 @@ const FilterBar = ({
         {/* Task Type Filter */}
         <div className="filter-group">
           <select
-            value={filters.taskType || 'all'}
-            onChange={(e) => handleFilterChange('taskType', e.target.value)}
+            value={filters.taskType || "all"}
+            onChange={(e) => handleFilterChange("taskType", e.target.value)}
             className="filter-select"
           >
             <option value="all">All Types</option>
-            {TASK_TYPES.map(type => (
+            {TASK_TYPES.map((type) => (
               <option key={type} value={type}>
                 {type}
               </option>
@@ -146,7 +149,7 @@ const FilterBar = ({
 
         {/* Clear Filters */}
         <div className="filter-group">
-          <button 
+          <button
             onClick={clearAllFilters}
             className="clear-filters-btn"
             // TODO: Disable when no active filters
@@ -154,7 +157,7 @@ const FilterBar = ({
           >
             Clear Filters
             {/* TODO: Show count of active filters */}
-             {activeFilterCount > 0 && ` (${activeFilterCount})`}
+            {activeFilterCount > 0 && ` (${activeFilterCount})`}
           </button>
         </div>
       </div>

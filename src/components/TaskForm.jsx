@@ -1,9 +1,9 @@
 // Dynamic Task Form Component
 // TODO: Implement complex form with React Hook Form
 
-import React, { useEffect, useMemo } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
-import { TASK_TYPES, PRIORITIES, BUG_SEVERITIES } from '../api/mockApi';
+import React, { useEffect, useMemo } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
+import { TASK_TYPES, PRIORITIES, BUG_SEVERITIES } from "../api/mockApi";
 
 // TODO: Implement TaskForm component
 // Requirements:
@@ -14,40 +14,38 @@ import { TASK_TYPES, PRIORITIES, BUG_SEVERITIES } from '../api/mockApi';
 // 5. Auto-save functionality
 // 6. File attachment simulation
 
-const TaskForm = ({ 
-  isOpen, 
+const TaskForm = ({
+  isOpen,
   mode, // 'create' or 'edit'
   initialData = null,
   onSubmit,
   onClose,
   users = [],
   projects = [],
-  loading = false 
+  loading = false,
 }) => {
-  
-  
   // TODO: Configure defaultValues, validation mode, and form options
   const defaultValues = {
-    title: '',
-    taskType: 'Bug',
-    priority: 'Medium',
-    projectId: '',
-    assigneeId: '',
-    description: '',
-    dueDate: '',
-    severity: 'Medium',
-    stepsToReproduce: '',
-    businessValue: '',
-    acceptanceCriteria: [{ value: '' }],
-    currentBehavior: '',
-    proposedBehavior: '',
-    researchQuestions: [{ value: '' }],
-    expectedOutcomes: '',
+    title: "",
+    taskType: "Bug",
+    priority: "Medium",
+    projectId: "",
+    assigneeId: "",
+    description: "",
+    dueDate: "",
+    severity: "Medium",
+    stepsToReproduce: "",
+    businessValue: "",
+    acceptanceCriteria: [{ value: "" }],
+    currentBehavior: "",
+    proposedBehavior: "",
+    researchQuestions: [{ value: "" }],
+    expectedOutcomes: "",
     subtasks: [],
   };
 
-// TODO: Setup React Hook Form with useForm hook
-   const {
+  // TODO: Setup React Hook Form with useForm hook
+  const {
     register,
     control,
     handleSubmit,
@@ -57,10 +55,9 @@ const TaskForm = ({
     formState: { errors, isValid },
   } = useForm({
     defaultValues,
-    mode: 'onChange',
+    mode: "onChange",
   });
 
-  
   // TODO: Setup useFieldArray for subtasks and acceptance criteria
   const {
     fields: subtaskFields,
@@ -68,7 +65,7 @@ const TaskForm = ({
     remove: removeSubtask,
   } = useFieldArray({
     control,
-    name: 'subtasks',
+    name: "subtasks",
   });
 
   const {
@@ -77,7 +74,7 @@ const TaskForm = ({
     remove: removeCriteria,
   } = useFieldArray({
     control,
-    name: 'acceptanceCriteria',
+    name: "acceptanceCriteria",
   });
 
   const {
@@ -86,56 +83,51 @@ const TaskForm = ({
     remove: removeQuestion,
   } = useFieldArray({
     control,
-    name: 'researchQuestions',
+    name: "researchQuestions",
   });
-  
+
   // TODO: Watch task type and project changes for dynamic behavior
-  const taskType = watch('taskType');
-  const selectedProjectId = watch('projectId');
+  const taskType = watch("taskType");
+  const selectedProjectId = watch("projectId");
   const formValues = watch();
-  
+
   // TODO: Filter available users based on selected project
   const filteredUsers = useMemo(() => {
     if (!selectedProjectId) return users;
 
-    return users.filter((user) =>
-      user.projectIds?.includes(selectedProjectId)  
-    );
+    return users.filter((user) => user.projectIds?.includes(selectedProjectId));
   }, [users, selectedProjectId]);
-  
+
   // TODO: Implement auto-save functionality to localStorage
   useEffect(() => {
     if (!isOpen) return;
 
-    if (mode === 'edit' && initialData) {
+    if (mode === "edit" && initialData) {
       reset({
         ...defaultValues,
         ...initialData,
-        acceptanceCriteria:
-          initialData.acceptanceCriteria?.map((item) => ({
-            value: item,
-          })) || [{ value: '' }],
-        researchQuestions:
-          initialData.researchQuestions?.map((item) => ({
-            value: item,
-          })) || [{ value: '' }],
+        acceptanceCriteria: initialData.acceptanceCriteria?.map((item) => ({
+          value: item,
+        })) || [{ value: "" }],
+        researchQuestions: initialData.researchQuestions?.map((item) => ({
+          value: item,
+        })) || [{ value: "" }],
         subtasks: initialData.subtasks || [],
       });
     }
-    if (mode === 'create') {
+    if (mode === "create") {
       // const savedDraft = localStorage.getItem('taskFormDraft');
       // reset(savedDraft ? JSON.parse(savedDraft) : defaultValues);
       reset(defaultValues);
-      
     }
   }, [isOpen, mode, initialData, reset]);
 
   useEffect(() => {
-    if (isOpen && mode === 'create') {
-      localStorage.setItem('taskFormDraft', JSON.stringify(formValues));
+    if (isOpen && mode === "create") {
+      localStorage.setItem("taskFormDraft", JSON.stringify(formValues));
     }
   }, [formValues, isOpen, mode]);
-  
+
   // TODO: Restore form data from localStorage on mount
 
   const submitHandler = (data) => {
@@ -152,18 +144,18 @@ const TaskForm = ({
       subtasks: data.subtasks?.filter((item) => item.title),
     };
     onSubmit(finalData);
-    localStorage.removeItem('taskFormDraft');
+    localStorage.removeItem("taskFormDraft");
   };
 
   // TODO: Render dynamic fields based on task type
-   const renderDynamicFields = () => {
+  const renderDynamicFields = () => {
     switch (taskType) {
-      case 'Bug':
+      case "Bug":
         return (
           <>
             <div className="form-group">
               <label>Severity *</label>
-              <select {...register('severity', { required: true })}>
+              <select {...register("severity", { required: true })}>
                 {BUG_SEVERITIES.map((severity) => (
                   <option key={severity} value={severity}>
                     {severity}
@@ -176,20 +168,20 @@ const TaskForm = ({
               <label>Steps to Reproduce</label>
               <textarea
                 placeholder="1. Step one&#10;2. Step two&#10;3. Expected vs actual result"
-                {...register('stepsToReproduce')}
+                {...register("stepsToReproduce")}
               />
             </div>
           </>
         );
 
-      case 'Feature':
+      case "Feature":
         return (
           <>
             <div className="form-group">
               <label>Business Value</label>
               <textarea
                 placeholder="Explain business value..."
-                {...register('businessValue')}
+                {...register("businessValue")}
               />
             </div>
 
@@ -204,33 +196,27 @@ const TaskForm = ({
                     {...register(`acceptanceCriteria.${index}.value`)}
                   />
 
-                  <button
-                    type="button"
-                    onClick={() => removeCriteria(index)}
-                  >
+                  <button type="button" onClick={() => removeCriteria(index)}>
                     Remove
                   </button>
                 </div>
               ))}
 
-              <button
-                type="button"
-                onClick={() => addCriteria({ value: '' })}
-              >
+              <button type="button" onClick={() => addCriteria({ value: "" })}>
                 Add Criteria
               </button>
             </div>
           </>
         );
 
-      case 'Enhancement':
+      case "Enhancement":
         return (
           <>
             <div className="form-group">
               <label>Current Behavior</label>
               <textarea
                 placeholder="Current behavior..."
-                {...register('currentBehavior')}
+                {...register("currentBehavior")}
               />
             </div>
 
@@ -238,13 +224,13 @@ const TaskForm = ({
               <label>Proposed Behavior</label>
               <textarea
                 placeholder="Proposed behavior..."
-                {...register('proposedBehavior')}
+                {...register("proposedBehavior")}
               />
             </div>
           </>
         );
 
-      case 'Research':
+      case "Research":
         return (
           <>
             <div className="form-group">
@@ -258,19 +244,13 @@ const TaskForm = ({
                     {...register(`researchQuestions.${index}.value`)}
                   />
 
-                  <button
-                    type="button"
-                    onClick={() => removeQuestion(index)}
-                  >
+                  <button type="button" onClick={() => removeQuestion(index)}>
                     Remove
                   </button>
                 </div>
               ))}
 
-              <button
-                type="button"
-                onClick={() => addQuestion({ value: '' })}
-              >
+              <button type="button" onClick={() => addQuestion({ value: "" })}>
                 Add Question
               </button>
             </div>
@@ -279,7 +259,7 @@ const TaskForm = ({
               <label>Expected Outcomes</label>
               <textarea
                 placeholder="Expected outcomes..."
-                {...register('expectedOutcomes')}
+                {...register("expectedOutcomes")}
               />
             </div>
           </>
@@ -288,7 +268,7 @@ const TaskForm = ({
       default:
         return null;
     }
-   };
+  };
 
   if (!isOpen) return null;
 
@@ -296,31 +276,29 @@ const TaskForm = ({
     <div className="task-form-overlay">
       <div className="task-form">
         <div className="task-form-header">
-          <h2>{mode === 'create' ? 'Create New Task' : 'Edit Task'}</h2>
+          <h2>{mode === "create" ? "Create New Task" : "Edit Task"}</h2>
           <button onClick={onClose}>×</button>
         </div>
 
-        <form 
-        onSubmit={handleSubmit(submitHandler)}
-        >
+        <form onSubmit={handleSubmit(submitHandler)}>
           {/* TODO: Implement form fields */}
-          
+
           {/* Basic Fields */}
           <div className="form-group">
             <label>Title *</label>
             {/* TODO: Add title input with validation */}
-             <input
+            <input
               type="text"
               placeholder="Enter task title..."
-               {...register('title', {
-                required: 'Title is required',
+              {...register("title", {
+                required: "Title is required",
                 minLength: {
                   value: 3,
-                  message: 'Title must be at least 3 characters',
+                  message: "Title must be at least 3 characters",
                 },
               })}
             />
-             {errors.title && (
+            {errors.title && (
               <p className="form-error">{errors.title.message}</p>
             )}
           </div>
@@ -328,8 +306,8 @@ const TaskForm = ({
           <div className="form-group">
             <label>Task Type *</label>
             {/* TODO: Add task type dropdown */}
-             <select {...register('taskType', { required: true })}>
-                {TASK_TYPES.map((type) => (
+            <select {...register("taskType", { required: true })}>
+              {TASK_TYPES.map((type) => (
                 <option key={type} value={type}>
                   {type}
                 </option>
@@ -340,8 +318,8 @@ const TaskForm = ({
           <div className="form-group">
             <label>Priority *</label>
             {/* TODO: Add priority dropdown */}
-             <select {...register('priority', { required: true })}>
-                {PRIORITIES.map((priority) => (
+            <select {...register("priority", { required: true })}>
+              {PRIORITIES.map((priority) => (
                 <option key={priority} value={priority}>
                   {priority}
                 </option>
@@ -352,9 +330,9 @@ const TaskForm = ({
           <div className="form-group">
             <label>Project</label>
             {/* TODO: Add project dropdown */}
-             <select {...register('projectId')}>
-               <option value="">Select a project...</option>
-                {projects.map((project) => (
+            <select {...register("projectId")}>
+              <option value="">Select a project...</option>
+              {projects.map((project) => (
                 <option key={project.id} value={project.id}>
                   {project.name}
                 </option>
@@ -365,9 +343,9 @@ const TaskForm = ({
           <div className="form-group">
             <label>Assignee</label>
             {/* TODO: Add assignee dropdown (filtered by project) */}
-            <select {...register('assigneeId')}>
-               <option value="">Unassigned</option>
-                {filteredUsers.map((user) => (
+            <select {...register("assigneeId")}>
+              <option value="">Unassigned</option>
+              {filteredUsers.map((user) => (
                 <option key={user.id} value={user.id}>
                   {user.name}
                 </option>
@@ -380,14 +358,14 @@ const TaskForm = ({
             {/* TODO: Add description textarea */}
             <textarea
               placeholder="Enter task description..."
-              {...register('description')}
+              {...register("description")}
             />
           </div>
 
           <div className="form-group">
             <label>Due Date</label>
             {/* TODO: Add date input */}
-             <input type="date" {...register('dueDate')} />
+            <input type="date" {...register("dueDate")} />
           </div>
 
           {/* Dynamic Fields */}
@@ -398,26 +376,23 @@ const TaskForm = ({
             <label>Subtasks</label>
             {/* TODO: Implement field array for subtasks */}
             {subtaskFields.map((field, index) => (
-             <div key={field.id} className="array-field">
+              <div key={field.id} className="array-field">
                 <input
                   type="text"
                   placeholder="Enter subtask"
                   {...register(`subtasks.${index}.title`)}
                 />
 
-                <button
-                  type="button"
-                  onClick={() => removeSubtask(index)}
-                >
+                <button type="button" onClick={() => removeSubtask(index)}>
                   Remove
                 </button>
               </div>
-              ))}
-               <button
+            ))}
+            <button
               type="button"
               onClick={() =>
                 addSubtask({
-                  title: '',
+                  title: "",
                 })
               }
             >
@@ -430,10 +405,12 @@ const TaskForm = ({
             <button type="button" onClick={onClose}>
               Cancel
             </button>
-            <button type="submit" 
-            disabled={loading || !isValid}
-            >
-              {loading ? 'Saving...' : mode === 'create' ? 'Create Task' : 'Update Task'}
+            <button type="submit" disabled={loading || !isValid}>
+              {loading
+                ? "Saving..."
+                : mode === "create"
+                  ? "Create Task"
+                  : "Update Task"}
             </button>
           </div>
         </form>

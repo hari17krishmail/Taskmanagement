@@ -1,4 +1,3 @@
-
 const initialState = {
   byId: {},
   allIds: [],
@@ -6,9 +5,7 @@ const initialState = {
 
 const projectsReducer = (state = initialState, action) => {
   switch (action.type) {
-
-    case 'FETCH_PROJECTS_SUCCESS': {
-
+    case "FETCH_PROJECTS_SUCCESS": {
       const byId = {};
       const allIds = [];
 

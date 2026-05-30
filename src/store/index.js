@@ -1,18 +1,18 @@
 // Redux store configuration
 // TODO: Implement store setup with saga middleware
 
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
-import createSagaMiddleware from 'redux-saga';
-import { createLogger } from 'redux-logger';
+import { createStore, applyMiddleware, combineReducers, compose } from "redux";
+import createSagaMiddleware from "redux-saga";
+import { createLogger } from "redux-logger";
 
 // TODO: Import your reducers here
-import tasksReducer from './reducers/tasksReducer';
-import uiReducer from './reducers/uiReducer';
-import usersReducer from './reducers/usersReducer';
-import projectsReducer from './reducers/projectsReducer';
+import tasksReducer from "./reducers/tasksReducer";
+import uiReducer from "./reducers/uiReducer";
+import usersReducer from "./reducers/usersReducer";
+import projectsReducer from "./reducers/projectsReducer";
 
 // TODO: Import your root saga
-import rootSaga from './sagas/rootSaga';
+import rootSaga from "./sagas/rootSaga";
 
 // TODO: Implement the store configuration
 // Requirements:
@@ -25,12 +25,12 @@ import rootSaga from './sagas/rootSaga';
 const rootReducer = combineReducers({
   // TODO: Add your reducers here
   // TODO: Use normalized state structure (entities, ui)
-   entities: combineReducers({
+  entities: combineReducers({
     tasks: tasksReducer,
     users: usersReducer,
     projects: projectsReducer,
   }),
-   ui: uiReducer,
+  ui: uiReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();
@@ -41,20 +41,20 @@ const logger = createLogger({
   diff: true,
   duration: true,
   timestamp: true,
-  level: 'info',
+  level: "info",
   logErrors: true,
   predicate: (getState, action) => {
     // Only log in development
-    return process.env.NODE_ENV === 'development';
-  }
+    return process.env.NODE_ENV === "development";
+  },
 });
 
 // Configure Redux DevTools Extension
-const composeEnhancers = 
-  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+const composeEnhancers =
+  typeof window !== "undefined" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
         trace: true,
-        traceLimit: 25
+        traceLimit: 25,
       })
     : compose;
 
@@ -64,9 +64,9 @@ const store = createStore(
   composeEnhancers(
     applyMiddleware(
       sagaMiddleware,
-      logger // Logger should be last middleware
-    )
-  )
+      logger, // Logger should be last middleware
+    ),
+  ),
 );
 
 // TODO: Run root saga

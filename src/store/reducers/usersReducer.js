@@ -5,9 +5,7 @@ const initialState = {
 
 const usersReducer = (state = initialState, action) => {
   switch (action.type) {
-
-    case 'FETCH_USERS_SUCCESS': {
-
+    case "FETCH_USERS_SUCCESS": {
       const byId = {};
       const allIds = [];
 

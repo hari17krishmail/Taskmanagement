@@ -8,16 +8,16 @@ import {
   CREATE_TASK_OPTIMISTIC,
   UPDATE_TASK_OPTIMISTIC,
   DELETE_TASK_OPTIMISTIC,
-} from '../actions/taskActions';
+} from "../actions/taskActions";
 
 const initialState = {
   byId: {},
   allIds: [],
   loading: false,
-  error: null,    
+  error: null,
 };
 
-const tasksReducer = (state = initialState, action) => { 
+const tasksReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_TASKS_REQUEST:
       return {
@@ -48,51 +48,47 @@ const tasksReducer = (state = initialState, action) => {
       };
 
     case CREATE_TASK_OPTIMISTIC: {
-  const task = action.payload;
+      const task = action.payload;
 
-  return {
-    byId: {
-      ...state.byId,
-      [task.id]: task,
-    },
+      return {
+        byId: {
+          ...state.byId,
+          [task.id]: task,
+        },
 
-    allIds: [...state.allIds, task.id],
-  };
-}
+        allIds: [...state.allIds, task.id],
+      };
+    }
 
-case CREATE_TASK_SUCCESS: {
-  const task = action.payload;
+    case CREATE_TASK_SUCCESS: {
+      const task = action.payload;
 
-  const tempId = state.allIds.find((id) =>
-    id.toString().startsWith('temp-')
-  );
+      const tempId = state.allIds.find((id) =>
+        id.toString().startsWith("temp-"),
+      );
 
-  const updatedById = { ...state.byId };
+      const updatedById = { ...state.byId };
 
-  if (tempId) {
-    delete updatedById[tempId];
-  }
+      if (tempId) {
+        delete updatedById[tempId];
+      }
 
-  updatedById[task.id] = task;
+      updatedById[task.id] = task;
 
-  return {
-    byId: updatedById,
+      return {
+        byId: updatedById,
 
-    allIds: tempId
-      ? state.allIds.map((id) =>
-          id === tempId ? task.id : id
-        )
-      : [...state.allIds, task.id],
-  };
-}
+        allIds: tempId
+          ? state.allIds.map((id) => (id === tempId ? task.id : id))
+          : [...state.allIds, task.id],
+      };
+    }
 
     case UPDATE_TASK_OPTIMISTIC:
     case UPDATE_TASK_SUCCESS: {
-      const task =
-        action.payload.updates || action.payload;
+      const task = action.payload.updates || action.payload;
 
-      const taskId =
-        action.payload.taskId || task.id;
+      const taskId = action.payload.taskId || task.id;
 
       return {
         ...state,
@@ -119,9 +115,7 @@ case CREATE_TASK_SUCCESS: {
       return {
         byId: updatedById,
 
-        allIds: state.allIds.filter(
-          (id) => id !== taskId
-        ),
+        allIds: state.allIds.filter((id) => id !== taskId),
       };
     }
 
