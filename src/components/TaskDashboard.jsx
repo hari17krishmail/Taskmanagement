@@ -49,6 +49,9 @@ const TaskDashboard = () => {
  
   const loading = useSelector(selectLoading);
   const errors = useSelector(selectErrors);
+
+  console.log("loadingtest", loading);
+  console.log("tasks", tasks);
   
   // TODO: Fetch initial data on component mount
   useEffect(() => {
@@ -59,6 +62,7 @@ const TaskDashboard = () => {
   // TODO: Implement event handlers
   const handleCreateTask = () => {
     // TODO: Dispatch open form action for create mode
+    localStorage.removeItem('taskFormDraft');
     dispatch(openTaskForm('create', null));
   };
 

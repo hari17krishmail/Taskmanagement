@@ -151,7 +151,6 @@ const TaskForm = ({
 
       subtasks: data.subtasks?.filter((item) => item.title),
     };
-
     onSubmit(finalData);
     localStorage.removeItem('taskFormDraft');
   };
@@ -302,7 +301,7 @@ const TaskForm = ({
         </div>
 
         <form 
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(submitHandler)}
         >
           {/* TODO: Implement form fields */}
           
@@ -317,10 +316,13 @@ const TaskForm = ({
                 required: 'Title is required',
                 minLength: {
                   value: 3,
-                  message: 'Minimum 3 characters required',
+                  message: 'Title must be at least 3 characters',
                 },
               })}
             />
+             {errors.title && (
+              <p className="form-error">{errors.title.message}</p>
+            )}
           </div>
 
           <div className="form-group">

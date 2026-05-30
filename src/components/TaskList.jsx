@@ -10,7 +10,8 @@ const TaskList = ({
   onEditTask, 
   onDeleteTask 
 }) => {
-
+ console.log("loading", loading);
+  console.log("tasks", tasks);
   // TODO: Implement task list functionality
   // Requirements:
   // 1. Display tasks in a grid or list layout
@@ -21,12 +22,12 @@ const TaskList = ({
   if (loading) {
     return (
       <div className="task-list-loading">
-        <div className="loading-spinner">Loading tasks...</div>
-      </div>
+        <div className="loading-spinner">Loading tasks...</div> 
+      </div>  
     );
   }
 
-  if (tasks.length === 0) {
+  if (!loading && tasks.length === 0) {
     return (
       <div className="task-list-empty">
         <h3>No tasks found</h3>

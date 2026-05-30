@@ -1,10 +1,11 @@
-// store/reducers/uiReducer.js
-
 import {
   OPEN_TASK_FORM,
   CLOSE_TASK_FORM,
   SET_FORM_MODE,
    SET_FILTERS,
+   SET_LOADING,
+  SET_ERROR,
+  CLEAR_ERROR,
 } from '../actions/uiActions';
 
 const initialState = {
@@ -70,6 +71,32 @@ const uiReducer = (state = initialState, action) => {
           ...action.payload,
         },
       };
+      case SET_LOADING:
+  return {
+    ...state,
+    loading: {
+      ...state.loading,
+      [action.payload.key]: action.payload.value,
+    },
+  };
+
+case SET_ERROR:
+  return {
+    ...state,
+    errors: {
+      ...state.errors,
+      [action.payload.key]: action.payload.error,
+    },
+  };
+
+case CLEAR_ERROR:
+  return {
+    ...state,
+    errors: {
+      ...state.errors,
+      [action.payload]: null,
+    },
+  };
 
     default:
       return state;

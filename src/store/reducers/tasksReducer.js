@@ -1,5 +1,7 @@
 import {
+  FETCH_TASKS_REQUEST,
   FETCH_TASKS_SUCCESS,
+  FETCH_TASKS_FAILURE,
   CREATE_TASK_SUCCESS,
   UPDATE_TASK_SUCCESS,
   DELETE_TASK_SUCCESS,
@@ -11,10 +13,18 @@ import {
 const initialState = {
   byId: {},
   allIds: [],
+  loading: false,
+  error: null,    
 };
 
 const tasksReducer = (state = initialState, action) => { 
   switch (action.type) {
+    case FETCH_TASKS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
     case FETCH_TASKS_SUCCESS: {
       const byId = {};
       const allIds = [];
@@ -27,8 +37,15 @@ const tasksReducer = (state = initialState, action) => {
       return {
         byId,
         allIds,
+        loading: false,
       };
     }
+    case FETCH_TASKS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
 
     case CREATE_TASK_OPTIMISTIC: {
   const task = action.payload;
