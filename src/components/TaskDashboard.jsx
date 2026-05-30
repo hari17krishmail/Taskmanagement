@@ -33,7 +33,7 @@ import {
 } from '../store/actions/uiActions';
 
 import { mockProjects, mockUsers } from '../api/mockApi';
-
+import Swal from 'sweetalert2';
 
 const TaskDashboard = () => {
   const dispatch = useDispatch();
@@ -94,10 +94,24 @@ const TaskDashboard = () => {
           formData
         )
       );
+      Swal.fire({
+      icon: 'success',
+      title: 'Task Updated!',
+      text: 'Task updated successfully.',
+      timer: 2000,
+      showConfirmButton: false,
+    });
     } else {
       dispatch(
         createTaskRequest(formData)
       );
+       Swal.fire({
+      icon: 'success',
+      title: 'Task Created!',
+      text: 'Task created successfully.',
+      timer: 2000,
+      showConfirmButton: false,
+    });
     }
   };
 

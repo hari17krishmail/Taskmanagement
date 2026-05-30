@@ -13,11 +13,12 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.48.2",
-    "redux": "^5.0.0",
     "react-redux": "^9.0.0",
-    "redux-saga": "^1.2.3",
+    "redux": "^5.0.0",
     "redux-logger": "^3.0.6",
+    "redux-saga": "^1.2.3",
     "reselect": "^5.0.1",
+    "sweetalert2": "^11.26.25",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
